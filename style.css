@@ -1,0 +1,321 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.home{
+    width: 250px;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blue{
+    background-color: blue;
+}
+
+.home>div{
+    width: 176px;
+    height: 176px;
+    background-color: white;
+    transform: rotate(45deg);
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 10px;
+}
+
+.home>div>div{
+    width: 88px;
+    height: 88px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.round{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 8px rgb(216, 209, 209);
+    border: 1px solid black;
+}
+
+.yellow{
+    background-color: yellow;
+}
+
+.red{
+    background-color: red;
+}
+
+.green{
+    background-color: green;
+}
+
+.game-container{
+    width: 50vw;
+    height: 80vh;
+    display: flex;
+    flex-wrap: wrap;
+    /* margin: 0px auto; */
+    gap: 0px;
+}
+
+.token-container{
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blue-light{
+    background-color: rgb(24, 107, 232);
+}
+
+.yellow-light{
+    background-color: rgba(205, 205, 66, 0.773);
+}
+
+.red-light{
+    background-color: brown;
+}
+
+.green-light{
+    background-color: chartreuse;
+}
+
+.vertical-grid{
+    width: 120px;
+    height: 240px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.play-box{
+    width: 40px;
+    height: 41.69px;
+    border: 2px solid black;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.horizontal-grid{
+    width: 250px;
+    height: 120px;
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+}
+
+.horizontal-grid .play-box{
+    width: 41.69px;
+    height: 40px;
+}
+
+.winner-box{
+    width: 120px;
+    height: 120px;
+    border: 2px solid black;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.board-token{
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    border: 2px solid black;
+    box-shadow: 2px 2px 8px rgb(216, 209, 209);
+}
+
+.yellow-winner{
+    width: 117px;
+    height: 34px;
+    display: flex;
+    background-color: yellow;
+}
+
+.red-winner{
+    width: 117px;
+    height: 34px;
+    display: flex;
+    background-color: red;
+}
+
+.blue-winner{
+    width: 35px;
+    height: 49px;
+    display: flex;
+    flex-direction: column;
+    background-color: blue;
+}
+
+.green-winner{
+    width: 35px;
+    height: 49px;
+    display: flex;
+    flex-direction: column;
+    background-color: green;
+}
+
+.msg{
+    width: 47px;
+    height: 49px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(60deg, blue, yellow, red, green);
+}
+
+.center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rot-90{
+    transform: rotate(90deg);
+}
+
+.rot-270{
+    transform: rotate(270deg);
+}
+
+
+.main-box{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-around;
+}
+
+.game-control{
+    width: 50vw;
+    height: 90vh;
+    /* background-color: antiquewhite; */
+    display: flex;
+    flex-wrap: wrap;
+}
+
+form{
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+button{
+    width: 100px;
+    height: 40px;
+    background-color: blue;
+    border-radius: 10px;
+    color: white;
+    border: none;
+    margin-top: 20px;
+}
+
+.player{
+    width: 22vw;
+    height: 29vh;
+    border: 2px solid black;
+    border-radius: 10px;
+    /* background-color: aliceblue; */
+    background: linear-gradient(90deg, blue, purple);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px;
+}
+
+.dice{
+    width: 48.2vw;
+    height: 33vh;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-size: contain;
+    background-position: center;
+    border: 1px solid black;
+}
+
+.hidden{
+    visibility: hidden;
+}
+
+.name-player{
+    font-size: 18px;
+    /* background-color: aliceblue; */
+    color: white;
+    padding: 2px;
+    border-radius: 4px;
+}
+
+.roll{
+    width: 108px;
+    height: 108px;
+    border: 1px solid black;
+    display: flex;
+    flex-wrap: wrap;
+    transition: transform 1s ease;
+    animation-duration: 0.2s;
+    animation-iteration-count: 12;
+    animation-timing-function: linear;
+}
+
+.dot{
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(11, 4, 75);
+}
+
+.circle{
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+@keyframes rotate {
+    0%{
+        transform: rotateX(0deg) rotateY(0deg);
+    }
+    50%{
+        transform: rotateX(270deg) rotateY(45deg);
+    }
+    100%{
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+.badge{
+    width: 100px;
+    height: 30px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, white, pink, purple);
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hide{
+    display: none;
+}
