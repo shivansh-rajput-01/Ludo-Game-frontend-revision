@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="input-box">
+        <h1 style="text-align: center;">Ludo Master</h1>
+        <form action="/action" id="user-number-input" class="form">
+            <div>
+                <label for="users">Select Number of players(2-4)</label>
+                <input type="range" min="2" max="4" step="1" id="users">
+                <span id="display-user" style="font-size: 18px;">3</span>
+            </div>
+            <button>Finalize</button>
+        </form>
+        
+        <form action="/action" class="form hide" id="name-input">
+            <label for="name" id="name-label">Enter Name of Player 1: </label>
+            <input type="text" id="name" required>
+            <br>
+            <label for="color">Choose Token Color: </label>
+            <select name="color" id="color" required>
+                <option value="" disabled selected>Color</option>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="yellow">Yellow</option>
+                <option value="green">Green</option>
+            </select>
+            <br>
+            <label for="gender">Choose Gender: </label>
+            <select name="gender" id="gender" required>
+                <option value="" default selected>Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <button>Submit</button>
+        </form>
+    </div>
+    <div class="main-box hide">
+        <div class="game-container">
+            <div class="blue home">
+                <div>
+                    <div class="b-1">
+                        <div class="token-container blue-light">
+                            <div class="b-p-1 round blue bt"></div>
+                        </div>
+                    </div>
+                    <div class="b-2">
+                        <div class="token-container blue-light">
+                            <div class="b-p-2 round blue bt"></div>
+                        </div>
+                    </div>
+                    <div class="b-3">
+                        <div class="token-container blue-light">
+                            <div class="b-p-3 round blue bt"></div>
+                        </div>
+                    </div>
+                    <div class="b-4">
+                        <div class="token-container blue-light">
+                            <div class="b-p-4 round blue bt"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vertical-grid">
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box yellow"></div>
+                <div class="play-box yellow">
+                    <div class="board-token yellow hide" id="y"></div>
+                    <div class="board-token yellow hide" id="y"></div>
+                    <div class="board-token yellow hide" id="y"></div>
+                    <div class="board-token yellow hide" id="y"></div>
+                </div>
+                <div class="play-box yellow"></div>
+                <div class="play-box yellow"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box yellow"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box yellow"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box yellow"></div>
+                <div class="play-box"></div>
+            </div>
+            <div class="yellow home">
+                <div>
+                    <div class="y-1">
+                        <div class="token-container yellow-light">
+                            <div class="y-p-1 round yellow yt"></div>
+                        </div>
+                    </div>
+                    <div class="y-2">
+                        <div class="token-container yellow-light">
+                            <div class="y-p-2 round yellow yt"></div>
+                        </div>
+                    </div>
+                    <div class="y-3">
+                        <div class="token-container yellow-light">
+                            <div class="y-p-3 round yellow yt"></div>
+                        </div>
+                    </div>
+                    <div class="y-4">
+                        <div class="token-container yellow-light">
+                            <div class="y-p-4 round yellow yt"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="horizontal-grid">
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box blue"></div>
+                <div class="play-box blue">
+                    <div class="board-token blue hide" id="b"></div>
+                    <div class="board-token blue hide" id="b"></div>
+                    <div class="board-token blue hide" id="b"></div>
+                    <div class="board-token blue hide" id="b"></div>
+                </div>
+                <div class="play-box blue"></div>
+                <div class="play-box blue"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box blue"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box blue"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box blue"></div>
+                <div class="play-box"></div>
+            </div>
+            <div class="winner-box">
+                <div class="yellow-winner center">
+                </div>
+                <div class="blue-winner center">
+                </div>
+                <div class="msg">Winner</div>
+                <div class="green-winner center">
+                </div>
+                <div class="red-winner center">
+                </div>
+            </div>
+            <div class="horizontal-grid">
+                <div class="play-box"></div>
+                <div class="play-box green">
+                    
+                </div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box green"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box green"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box green"></div>
+                <div class="play-box green"></div>
+                <div class="play-box green">
+                    <div class="board-token green hide" id="g"></div>
+                    <div class="board-token green hide" id="g"></div>
+                    <div class="board-token green hide" id="g"></div>
+                    <div class="board-token green hide" id="g"></div>
+                </div>
+                <div class="play-box green"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+            </div>
+            <div class="red home">
+                <div>
+                    <div class="r-1">
+                        <div class="token-container red-light">
+                            <div class="r-p-1 round red rt"></div>
+                        </div>
+                    </div>
+                    <div class="r-2">
+                        <div class="token-container red-light">
+                            <div class="r-p-2 round red rt"></div>
+                        </div>
+                    </div>
+                    <div class="r-3">
+                        <div class="token-container red-light">
+                            <div class="r-p-3 round red rt"></div>
+                        </div>
+                    </div>
+                    <div class="r-4">
+                        <div class="token-container red-light">
+                            <div class="r-p-4 round red rt"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vertical-grid">
+                <div class="play-box"></div>
+                <div class="play-box red"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box red"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box red"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box red"></div>
+                <div class="play-box red"></div>
+                <div class="play-box red">
+                    <div class="board-token red hide" id="r"></div>
+                    <div class="board-token red hide" id="r"></div>
+                    <div class="board-token red hide" id="r"></div>
+                    <div class="board-token red hide" id="r"></div>
+                </div>
+                <div class="play-box red"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+                <div class="play-box"></div>
+            </div>
+            <div class="green home">
+                <div>
+                    <div class="g-1">
+                        <div class="token-container green-light">
+                            <div class="g-p-1 round green gt"></div>
+                        </div>
+                    </div>
+                    <div class="g-2">
+                        <div class="token-container green-light">
+                            <div class="g-p-2 round green gt"></div>
+                        </div>
+                    </div>
+                    <div class="g-3">
+                        <div class="token-container green-light">
+                            <div class="g-p-3 round green gt"></div>
+                        </div>
+                    </div>
+                    <div class="g-4">
+                        <div class="token-container green-light">
+                            <div class="g-p-4 round green gt"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="game-control">
+            <div class="player One hidden">
+                <div class="profile"></div>
+                <p class="name-player"></p>
+                <p></p>
+                <div class="badge hide">Active</div>
+            </div>
+            <div class="player Two hidden">
+                <div class="profile"></div>
+                <p class="name-player"></p>
+                <p></p>
+                <div class="badge hide">Active</div>
+            </div>
+            <div class="dice">
+                <h1>Dice</h1>
+                <div class="roll">
+                    <div class="dot">
+                        <div class="circle hide"></div>
+                    </div>
+                    <div class="dot">
+                        <div class="circle hide"></div>
+                    </div>
+                    <div class="dot">
+                        <div class="circle hide"></div>
+                    </div>
+                    <div class="dot">
+                        <div class="circle hide"></div>
+                    </div>
+                    <div class="dot">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="dot">
+                        <div class="circle hide"></div>
+                    </div>
+                    <div class="dot">
+                        <div class="circle hide"></div>
+                    </div>
+                    <div class="dot">
+                        <div class="circle hide"></div>
+                    </div>
+                    <div class="dot">
+                        <div class="circle hide"></div>
+                    </div>
+                </div>
+                <p>Outcome: </p>
+                <button id="dice-roll">Roll Dice</button>
+            </div>
+            <div class="player Three hidden">
+                <div class="profile"></div>
+                <p class="name-player"></p>
+                <p></p>
+                <div class="badge hide">Active</div>
+            </div>
+            <div class="player Four hidden">
+                <div class="profile"></div>
+                <p class="name-player"></p>
+                <p></p>
+                <div class="badge hide">Active</div>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </div>
+</body>
+
+</html>
