@@ -25,6 +25,7 @@ let p1 = document.querySelector(".One");
 let p2 = document.querySelector(".Two");
 let p3 = document.querySelector(".Three");
 let p4 = document.querySelector(".Four");
+let again = document.querySelector("#restart");
 let p = [p1, p2, p3, p4];
 let center = document.querySelectorAll(".center");
 let badges = Array.from(document.querySelectorAll(".badge"));
@@ -41,6 +42,10 @@ let obj = {
 
 boardTokens.forEach((token, index) => {
     token.dataset.tokenIdx = index % 4; 
+});
+
+again.addEventListener("click", () => {
+    location.reload();
 });
 
 numUsr.addEventListener("input", function(){
@@ -167,7 +172,12 @@ let redTokensPos = [66, 66, 66, 66];
 let blueTokensPos = [23, 23, 23, 23];
 let greenTokensPos = [48, 48, 48, 48];
 
-let winner = [0, 0, 0, 0];
+let blueWin = [-1, -1, -1, -1];
+let yellowWin = [-1, -1, -1, -1];
+let greenWin = [-1, -1, -1, -1];
+let redWin = [-1, -1, -1, -1];
+
+let winner = [];
 
 function isComplete(winner){
     return winner.every((el) => {
@@ -181,6 +191,7 @@ let currMoves = [];
 let flagMoves = [];
 let killChance = [];
 let killFlag = false;
+let winFlag = false;
 let chanceTokenMap = {
     0: blueTokens,
     1: yellowTokens,
@@ -199,7 +210,12 @@ let chancePathMap = {
     2: greenPath,
     3: redPath,
 };
-
+let chanceWinMap = {
+    0: blueWin,
+    1: yellowWin,
+    2: greenWin,
+    3: redWin,
+};
 
 
 // Game loop
@@ -355,15 +371,66 @@ function returnArray(num, val){
     }
 }
 
+function isSafeMove(idx, path, pos, tokens, i){
+    let sum = 0;
+    for(let i=0; i<currMoves.length; i++){
+        sum += currMoves[i];
+    }
+    if(sum + idx < path.length){
+        return true;
+    }
+    return checkBoardMoves(idx, path, pos, tokens, sum, i);
+}
+
+function checkBoardMoves(idx, path, pos, tokens, s, id){
+    let locked = 0;
+    let t = [...tokens];
+    let dupMoves = [...currMoves];
+    t.forEach((el, idx) => {
+        if(!el.classList.contains("hide")){
+            locked++;
+        }
+    });
+    if(locked > 0 && (dupMoves.includes(6) || dupMoves.includes(1))){
+        return true;
+    }
+    for(let i=0; i<pos.length; i++){
+        if(pos[i] == path[0] && locked != 0){
+            locked--;
+            break;
+        }
+        if(i != id && s + path.indexOf(pos[i]) < path.length){
+            return true;
+        }
+        if(dupMoves[0] + path.indexOf(pos[i]) < path.length){
+            dupMoves.shift();
+        }else if(dupMoves[1] + path.indexOf(pos[i]) < path.length){
+            dupMoves.splice(1, 1);
+        }
+        if(dupMoves.length == 0){
+            return true;
+        }
+    }
+    return false;
+}
+
 function BoardToken(){
     if(currMoves.length <= 3 && currMoves[currMoves.length - 1] == 6) return;
     if(this.getAttribute("id") == 'b' && chance == 0){
         let n = currMoves.shift();
-        // to check if clicked token cannot go inside win because the value of n is greater than required number
         let pathIdx = bluePath.indexOf(blueTokensPos[boardTokens.indexOf(this) - 4]);
+        // to check if clicked token cannot go inside win because the value of n is greater than required number
         if(pathIdx + n >= bluePath.length){
             currMoves.unshift(n);
             return;
+        }
+        // to check if after movement game will be in safe state or not
+        if(currMoves.length > 1){
+            let isSafe = isSafeMove(pathIdx+n, bluePath, blueTokensPos, blueTokens, boardTokens.indexOf(this) - 4);
+            if(!isSafe){
+                currMoves.unshift(n);
+                return;
+            }
         }
         // to update position of token after move
         blueTokensPos[boardTokens.indexOf(this) - 4] = move(bluePath, blueTokensPos[boardTokens.indexOf(this) - 4], n, this);
@@ -373,6 +440,17 @@ function BoardToken(){
             findKill(curPos, yellowTokensPos, greenTokensPos, redTokensPos, [1, 0, 2, 3]);
             // return;
         }
+        console.log("blue", curPos, bluePath[bluePath.length - 1]);
+        if(curPos == bluePath[bluePath.length - 1]){
+            winFlag = true;
+            console.log("make win flag true");
+            for(let i=0; i<blueWin.length; i++){
+                if(blueWin[i] == -1){
+                    blueWin[i] = 0;
+                    break;
+                }
+            }
+        }
     }
     if(this.getAttribute("id") == 'y' && chance == 1){
         let n = currMoves.shift();
@@ -381,11 +459,29 @@ function BoardToken(){
             currMoves.unshift(n);
             return;
         }
+        if(currMoves.length > 1){
+            let isSafe = isSafeMove(pathIdx+n, yellowPath, yellowTokensPos, yellowTokens, boardTokens.indexOf(this));
+            if(!isSafe){
+                currMoves.unshift(n);
+                return;
+            }
+        }
         yellowTokensPos[boardTokens.indexOf(this)] = move(yellowPath, yellowTokensPos[boardTokens.indexOf(this)], n, this);
         let curPos = yellowTokensPos[boardTokens.indexOf(this)];
         if(savePoints.indexOf(curPos) == -1){ // current position is not a savepoint
             findKill(curPos, blueTokensPos, greenTokensPos, redTokensPos, [0, 1, 2, 3]);
             // return;
+        }
+        console.log("yellow", curPos, yellowPath[yellowPath.length - 1]);
+        if(curPos == yellowPath[yellowPath.length - 1]){
+            winFlag = true;
+            console.log("make win flag true");
+            for(let i=0; i<yellowWin.length; i++){
+                if(yellowWin[i] == -1){
+                    yellowWin[i] = 0;
+                    break;
+                }
+            }
         }
     }
     if(this.getAttribute("id") == 'g' && chance == 2){
@@ -395,11 +491,28 @@ function BoardToken(){
             currMoves.unshift(n);
             return;
         }
+        if(currMoves.length > 1){
+            let isSafe = isSafeMove(pathIdx+n, greenPath, greenTokensPos, greenTokens, boardTokens.indexOf(this) - 8);
+            if(!isSafe){
+                currMoves.unshift(n);
+                return;
+            }
+        }
         greenTokensPos[boardTokens.indexOf(this) - 8] = move(greenPath, greenTokensPos[boardTokens.indexOf(this) - 8], n, this);
         let curPos = greenTokensPos[boardTokens.indexOf(this) - 8];
         if(savePoints.indexOf(curPos) == -1){ // current position is not a savepoint
             findKill(curPos, yellowTokensPos, blueTokensPos, redTokensPos, [1, 2, 0, 3]);
             // return;
+        }
+        if(curPos == greenPath[greenPath.length - 1]){
+            winFlag = true;
+            console.log("make win flag true");
+            for(let i=0; i<greenWin.length; i++){
+                if(greenWin[i] == -1){
+                    greenWin[i] = 0;
+                    break;
+                }
+            }
         }
     }
     if(this.getAttribute("id") == 'r' && chance == 3){
@@ -409,21 +522,90 @@ function BoardToken(){
             currMoves.unshift(n);
             return;
         }
+        if(currMoves.length > 1){
+            let isSafe = isSafeMove(pathIdx+n, redPath, redTokensPos, redTokens, boardTokens.indexOf(this) - 12);
+            if(!isSafe){
+                currMoves.unshift(n);
+                return;
+            }
+        }
         redTokensPos[boardTokens.indexOf(this) - 12] = move(redPath, redTokensPos[boardTokens.indexOf(this) - 12], n, this);
         let curPos = redTokensPos[boardTokens.indexOf(this) - 12];
         if(savePoints.indexOf(curPos) == -1){ // current position is not a savepoint
             findKill(curPos, yellowTokensPos, blueTokensPos, greenTokensPos, [1, 2, 3, 0]);
             // return;
         }
+        if(curPos == redPath[redPath.length - 1]){
+            winFlag = true;
+            console.log("make win flag true");
+            for(let i=0; i<redWin.length; i++){
+                if(redWin[i] == -1){
+                    redWin[i] = 0;
+                    break;
+                }
+            }
+        }
     }
     if(currMoves.length == 0){
-        if(!killFlag) chance = dummyChance;
+        console.log("redwin", redWin);
+        console.log("bluewin", blueWin);
+        console.log("greenwin", greenWin);
+        console.log("yellowwin", yellowWin);
+        console.log("going to check victory");
+        let w = checkVictory(chance);
+        if(w) return;
+        if(!killFlag && !winFlag) chance = dummyChance;
+        if(winner.includes(chance)) return;
         dice.classList.remove("hide");
         badges.forEach((el) => {
                 el.classList.add("hide");
         });
         badges[sortedPlayersName[chance].idx].classList.remove("hide");
     }
+}
+
+function checkVictory(c){
+    console.log(winner);
+    let winArray = chanceWinMap[chance];
+    for(let i=0; i<winArray.length; i++){
+        if(winArray[i] == -1){
+            return false;
+        }
+    }
+    winFlag = false;
+    winner.push(chance);
+    if(winner.length == numPlayers - 1){
+        displayResult();
+        return true;
+    }
+    while(true){
+        chance = (chance + 1) % numPlayers;
+        dummyChance = chance;
+        if(!winner.includes(chance)) break;
+    }
+    return false;
+}
+
+function displayResult(){
+    for(let i=0; i<numPlayers; i++){
+        if(winner.includes(i)) continue;
+        else winner.push(i);
+    }
+    h1.innerText = `Result`;
+    let roll = document.querySelector(".roll");
+    roll.classList.add("hide");
+    dice.classList.add("hide");
+    document.querySelector(".outcome").classList.add("hide");
+    let resultBox = document.querySelector("#result-box");
+    resultBox.classList.remove("hide");
+    again.classList.remove("hide");
+    let table;
+    table = `<table><tr><th>Rank</th><th>Name</th></tr>`;
+    for(let i=0; i<winner.length; i++){
+        table += `<tr><td>${i+1}</td><td style="background-color: ${chanceLoop[winner[i]]}">${sortedPlayersName[winner[i]].name}</td></tr>`;
+    }
+    table += `</table>`;
+    resultBox.innerHTML = table;
 }
 
 function move(arr, start, moves, element){
@@ -456,6 +638,17 @@ function moveForwardOne(start, end, ele){
 }
 
 let diceFunc = async function(){
+    while(true){
+        if(!winner.includes(chance)){
+            badges.forEach((el) => {
+                el.classList.add("hide");
+            });
+            badges[sortedPlayersName[chance].idx].classList.remove("hide");
+            break;
+        };
+        chance = (chance + 1) % numPlayers;
+        dummyChance = chance;
+    }
     let number = Math.floor(Math.random() * 6) + 1;
     if(flagMoves.length == 0) currMoves = [];
     currMoves.push(number);
@@ -497,23 +690,55 @@ let diceFunc = async function(){
             return;
         }
         if(number != 6){
-            if(!killFlag) dummyChance = (dummyChance + 1) % numPlayers;
+            if(!killFlag && !winFlag) dummyChance = (dummyChance + 1) % numPlayers;
             flagMoves = [];
             dice.classList.add("hide");
             if(killFlag) killFlag = false;
+            if(winFlag) winFlag = false;
         }
         else if(number == 6 && currMoves.length == 3){
             flagMoves = [];
             currMoves = [];
-            if(!killFlag) dummyChance = (dummyChance + 1) % numPlayers;
+            if(!killFlag && !winFlag) dummyChance = (dummyChance + 1) % numPlayers;
             chance = (chance + 1) % numPlayers;
             badges.forEach((el) => {
                 el.classList.add("hide");
             });
             badges[sortedPlayersName[chance].idx].classList.remove("hide");
             if(killFlag) killFlag = false;
+            if(winFlag) winFlag = false;
         }
     }, 2400);
+}
+
+function advanceCheck(chance, number, pos, path){
+    let sum = 0;
+    let dupMoves = [...currMoves];
+    let newMoves = [...currMoves];
+    let dumPos = [...pos];
+    for(let i=0; i<currMoves.length; i++){
+        sum += currMoves[i];
+    }
+    if(currMoves.length == 2 && currMoves[1] == 6){
+        dupMoves.push(1);
+        sum++;
+    }
+    for(let i=0; i<pos.length; i++){
+        dupMoves = [...newMoves];
+        if(sum + path.indexOf(pos[i]) < path.length){
+            return false;
+        }
+        for(let j=0; j<dupMoves.length; j++){
+            if(dupMoves[j] + path.indexOf(dumPos[i]) < path.length){
+                dumPos[i] += dupMoves[j];
+                newMoves.splice(j, 1);
+                if(newMoves.length == 0){
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 function currentPlayerBlocked(chance, number){
@@ -526,6 +751,9 @@ function currentPlayerBlocked(chance, number){
     }
     let pos = chancePosMap[chance];
     let path = chancePathMap[chance];
+    if(currMoves.length > 1){
+        return advanceCheck(chance, number, pos, path);
+    }
     let l = path.length;
     let locked = [];
     let start, end;
