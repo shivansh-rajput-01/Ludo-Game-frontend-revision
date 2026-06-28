@@ -328,3 +328,163 @@ tr, th, td{
 td, th{
     width: 100px;
 }
+
+@media(max-width:450px){
+    .main-box{
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .game-container{
+        width: 100vw;
+        height: 350px;
+        justify-content: center;
+    }
+
+    .game-control{
+        width: 100vw;
+        height: 50vh;
+        justify-content: center;
+    }
+
+    .home{
+        width: 140px;
+        height: 140px;
+    }
+
+    .vertical-grid{
+        width: 68px;
+        height: 136px;
+    }
+
+    .home>div{
+        width: 99px;
+        height: 99px;
+    }
+    .home>div>div{
+        width: 49px;
+        height: 49px;
+    }
+
+    .token-container{
+        width: 35px;
+        height: 35px;
+    }
+
+    .round{
+        width: 22px;
+        height: 22px;
+    }
+
+    .play-box{
+        width: 22.67px;
+        height: 23.5px;
+        border: 0.5px solid black;
+    }
+
+    .horizontal-grid{
+        width: 140px;
+        height: 68px;
+    }
+
+    .horizontal-grid .play-box{
+        width: 23.5px;
+        height: 22.67px;
+    }
+
+    .winner-box{
+        width: 68px;
+        height: 68px;
+        overflow: hidden;
+        border: 0.5px solid black;
+    }
+
+    .yellow-winner{
+        width: 66.3px;
+        height: 19.27px;
+    }
+
+    .red-winner{
+        width: 66.3px;
+        height: 19.27px;
+    }
+
+    .blue-winner{
+        width: 19.7px;
+        height: 27.6px;
+    }
+
+    .green-winner{
+        width: 19.7px;
+        height: 27.6px;
+    }
+
+    .msg{
+        width: 26.63px;
+        height: 27.76px;
+        font-size: 8px;
+    }
+
+    .board-token{
+        width: 20px;
+        height: 20px;
+        border: 0.5px solid black;
+    }
+
+    .player{
+        width: 45vw;
+        height: 150px;
+        border: 2px solid black;
+        margin: 2px;
+    }
+
+    .profile{
+        width: 50px;
+        height: 50px;
+    }
+
+    .name-player{
+        font-size: 10px;
+    }
+
+    p{
+        font-size: 10px;
+    }
+
+    .dice{
+        width: 90vw;
+        height: 150px;
+        margin: 8px;
+    }
+
+    .roll{
+        width: 54px;
+        height: 54px;
+    }
+
+    .dot{
+        width: 18px;
+        height: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(11, 4, 75);
+    }
+
+    .circle{
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: white;
+    }
+
+    .badge{
+        width: 40px;
+        height: 20px;
+        font-size: 10px;
+    }
+
+    h1{
+        font-size: 18px;
+    }
+}
