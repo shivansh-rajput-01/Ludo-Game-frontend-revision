@@ -433,7 +433,7 @@ td, th{
 
     .player{
         width: 45vw;
-        height: 150px;
+        height: 100px;
         border: 2px solid black;
         margin: 2px;
     }
