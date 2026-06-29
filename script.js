@@ -27,6 +27,7 @@ let p3 = document.querySelector(".Three");
 let p4 = document.querySelector(".Four");
 let again = document.querySelector("#restart");
 let p = [p1, p2, p3, p4];
+let c = document.querySelector("#color-box");
 let center = document.querySelectorAll(".center");
 let badges = Array.from(document.querySelectorAll(".badge"));
 let boardTokens = document.querySelectorAll(".board-token"); // YBGR
@@ -60,13 +61,28 @@ userNumberForm.addEventListener("submit", function(evt){
     alert(`Number of players are: ${numPlayers}`);
     this.classList.add("hide");
     nameForm.classList.remove("hide");
+    if(numPlayers != 4){
+        c.classList.add("hide");
+        c.required = false;
+        c.removeAttribute('required');
+        document.querySelector("#c-label").classList.add("hide");
+    }
 });
 
 nameForm.addEventListener("submit", function(evt){
     evt.preventDefault();
-    playerNames.push({name: name.value, color: color.value, gender: gender.value});
-    let colorIdx = availableColors.indexOf(color.value);
-    availableColors.splice(colorIdx, 1);
+    if(numPlayers == 4){
+        console.log(name.value);
+        console.log(gender.value);
+        console.log(color.value);
+        playerNames.push({name: name.value, color: color.value, gender: gender.value});
+        let colorIdx = availableColors.indexOf(color.value);
+        availableColors.splice(colorIdx, 1);
+    }else{
+        playerNames.push({name: name.value, color: chanceLoop[inputPlayers], gender: gender.value});
+        let colorIdx = availableColors.indexOf(chanceLoop[inputPlayers]);
+        availableColors.splice(colorIdx, 1);
+    }
     inputPlayers++;
     if(inputPlayers == numPlayers){
         main.classList.remove("hide");
@@ -114,21 +130,23 @@ nameForm.addEventListener("submit", function(evt){
         badges[sortedPlayersName[0].idx].classList.remove("hide");
         return;
     };
-    if(color.value == "red"){
-        color.children[1].disabled = true;
-    }
-    else if(color.value == "blue"){
-        color.children[2].disabled = true;
-    }
-    else if(color.value == "yellow"){
-        color.children[3].disabled = true;
-    }
-    else if(color.value == "green"){
-        color.children[4].disabled = true;
+    if(numPlayers == 4){
+        if(color.value == "red"){
+            color.children[1].disabled = true;
+        }
+        else if(color.value == "blue"){
+            color.children[2].disabled = true;
+        }
+        else if(color.value == "yellow"){
+            color.children[3].disabled = true;
+        }
+        else if(color.value == "green"){
+            color.children[4].disabled = true;
+        }
     }
     nameLabel.innerText = `Enter Name of Player ${inputPlayers+1}:`;
     name.value = "";
-    color.value = "";
+    if(numPlayers == 4) color.value = "";
 });
 
 // Game section
@@ -415,6 +433,8 @@ function checkBoardMoves(idx, path, pos, tokens, s, id){
 }
 
 function BoardToken(){
+    console.log("------------------------------------------------------------");
+    console.log("token clicked", this, chance);
     if(currMoves.length <= 3 && currMoves[currMoves.length - 1] == 6) return;
     if(this.getAttribute("id") == 'b' && chance == 0){
         let n = currMoves.shift();
@@ -555,12 +575,23 @@ function BoardToken(){
         let w = checkVictory(chance);
         if(w) return;
         if(!killFlag && !winFlag) chance = dummyChance;
-        if(winner.includes(chance)) return;
         dice.classList.remove("hide");
-        badges.forEach((el) => {
-                el.classList.add("hide");
-        });
-        badges[sortedPlayersName[chance].idx].classList.remove("hide");
+        // if(winner.includes(chance)) return;
+        // badges.forEach((el) => {
+        //         el.classList.add("hide");
+        // });
+        // badges[sortedPlayersName[chance].idx].classList.remove("hide");
+        while(true){
+            if(!winner.includes(chance)){
+                badges.forEach((el) => {
+                    el.classList.add("hide");
+                });
+                badges[sortedPlayersName[chance].idx].classList.remove("hide");
+                break;
+            };
+            chance = (chance + 1) % numPlayers;
+            dummyChance = chance;
+        }
     }
 }
 
@@ -573,7 +604,7 @@ function checkVictory(c){
         }
     }
     winFlag = false;
-    winner.push(chance);
+    if(!winner.includes(chance)) winner.push(chance);
     if(winner.length == numPlayers - 1){
         displayResult();
         return true;
@@ -591,7 +622,7 @@ function displayResult(){
         if(winner.includes(i)) continue;
         else winner.push(i);
     }
-    h1.innerText = `Result`;
+    document.querySelector(".dice-heading").innerText = `Result`;
     let roll = document.querySelector(".roll");
     roll.classList.add("hide");
     dice.classList.add("hide");
@@ -637,7 +668,7 @@ function moveForwardOne(start, end, ele){
     });
 }
 
-let diceFunc = async function(){
+function badgeUpdate(){
     while(true){
         if(!winner.includes(chance)){
             badges.forEach((el) => {
@@ -649,6 +680,9 @@ let diceFunc = async function(){
         chance = (chance + 1) % numPlayers;
         dummyChance = chance;
     }
+}
+
+let diceFunc = async function(){
     let number = Math.floor(Math.random() * 6) + 1;
     if(flagMoves.length == 0) currMoves = [];
     currMoves.push(number);
@@ -671,10 +705,7 @@ let diceFunc = async function(){
             currMoves = [];
             dummyChance = (dummyChance + 1) % numPlayers;
             chance = (chance + 1) % numPlayers;
-            badges.forEach((el) => {
-                el.classList.add("hide");
-            });
-            badges[sortedPlayersName[chance].idx].classList.remove("hide");
+            badgeUpdate();
             return;
         }
         if(currentPlayerBlocked(chance, number)){
@@ -683,10 +714,7 @@ let diceFunc = async function(){
             currMoves = [];
             dummyChance = (dummyChance + 1) % numPlayers;
             chance = (chance + 1) % numPlayers;
-            badges.forEach((el) => {
-                el.classList.add("hide");
-            });
-            badges[sortedPlayersName[chance].idx].classList.remove("hide");
+            badgeUpdate();
             return;
         }
         if(number != 6){
@@ -701,10 +729,7 @@ let diceFunc = async function(){
             currMoves = [];
             if(!killFlag && !winFlag) dummyChance = (dummyChance + 1) % numPlayers;
             chance = (chance + 1) % numPlayers;
-            badges.forEach((el) => {
-                el.classList.add("hide");
-            });
-            badges[sortedPlayersName[chance].idx].classList.remove("hide");
+            badgeUpdate();
             if(killFlag) killFlag = false;
             if(winFlag) winFlag = false;
         }
