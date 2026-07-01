@@ -55,7 +55,8 @@
 
 .game-container{
     width: 50vw;
-    height: 80vh;
+    height: 620px;
+    max-width: 850px;
     display: flex;
     flex-wrap: wrap;
     /* margin: 0px auto; */
@@ -157,7 +158,7 @@
 }
 
 .green-winner{
-    width: 35px;
+    width: 34px;
     height: 49px;
     display: flex;
     flex-direction: column;
@@ -329,22 +330,24 @@ td, th{
     width: 100px;
 }
 
-@media(max-width:450px){
+@media(max-width:650px){
     .main-box{
         flex-direction: column;
         min-height: 100vh;
     }
 
     .game-container{
-        width: 100vw;
+        width: 365px;
         height: 350px;
         justify-content: center;
+        margin: 0px auto;
     }
 
     .game-control{
-        width: 100vw;
+        width: 365px;
         height: 50vh;
         justify-content: center;
+        margin: 10px auto;
     }
 
     .home{
@@ -432,7 +435,7 @@ td, th{
     }
 
     .player{
-        width: 45vw;
+        width: 165px;
         height: 100px;
         border: 2px solid black;
         margin: 2px;
@@ -452,7 +455,171 @@ td, th{
     }
 
     .dice{
-        width: 90vw;
+        width: 350px;
+        height: 150px;
+        margin: 8px;
+        margin: 0px auto;
+    }
+
+    .roll{
+        width: 54px;
+        height: 54px;
+    }
+
+    .dot{
+        width: 18px;
+        height: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(11, 4, 75);
+    }
+
+    .circle{
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: white;
+    }
+
+    .badge{
+        width: 40px;
+        height: 20px;
+        font-size: 10px;
+    }
+
+    h1{
+        font-size: 18px;
+    }
+}
+
+@media(min-width:651px) and (max-width:1240px){
+    .main-box{
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .game-container{
+        width: 620px;
+        height: 620px;
+        justify-content: center;
+        margin: 0px auto;
+    }
+
+    .game-control{
+        width: 620px;
+        min-height: 50vh;
+        justify-content: center;
+        margin: 10px auto;
+    }
+
+    .home{
+        width: 248px;
+        height: 248px;
+    }
+
+    .vertical-grid{
+        width: 120.45px;
+        height: 244px;
+    }
+
+    .home>div{
+        width: 175px;
+        height: 175px;
+    }
+
+    .home>div>div{
+        width: 86.8px;
+        height: 86.8px;
+    }
+
+    .token-container{
+        width: 62px;
+        height: 62px;
+    }
+
+    .round{
+        width: 39px;
+        height: 39px;
+    }
+
+    .play-box{
+        width: 40px;
+        height: 41.6px;
+        border: 1px solid black;
+    }
+
+    .horizontal-grid{
+        width: 248px;
+        height: 120.45px;
+    }
+
+    .horizontal-grid .play-box{
+        width: 41.3px;
+        height: 40.15px;
+    }
+
+    .winner-box{
+        width: 120.45px;
+        height: 120.45px;
+        overflow: hidden;
+        border: 0.5px solid black;
+    }
+
+    .yellow-winner{
+        width: 117.43px;
+        height: 34.13px;
+    }
+
+    .red-winner{
+        width: 117.43px;
+        height: 34.13px;
+    }
+
+    .blue-winner{
+        width: 34.89px;
+        height: 48.88px;
+    }
+
+    .green-winner{
+        width: 34.89px;
+        height: 48.88px;   
+    }
+
+    .msg{
+        width: 47.17px;
+        height: 49.17px;
+        font-size: 12px;
+    }
+
+    .board-token{
+        width: 38px;
+        height: 38px;
+        border: 0.5px solid black;
+    }
+
+    .player{
+        width: 300px;
+        height: 120px;
+        border: 2px solid black;
+        margin: 2px;
+    }
+
+    .profile{
+        width: 50px;
+        height: 50px;
+    }
+
+    .name-player{
+        font-size: 14px;
+    }
+
+    p{
+        font-size: 14px;
+    }
+
+    .dice{
+        width: 500px;
         height: 150px;
         margin: 8px;
     }
